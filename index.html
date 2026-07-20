@@ -1,0 +1,465 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#160d09"><link rel="manifest" href="./manifest.json"><link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png"><link rel="icon" type="image/svg+xml" href="./icon.svg"><title>Shinobi Fit · Version 11</title>
+<style>
+:root{--bg:#100a08;--card:#21140f;--line:#4b2a1d;--text:#fff6ec;--muted:#c4aa9c;--orange:#ff8a1f;--red:#d94a2b;--gold:#ffc247;--green:#57c27a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#6b281a66,transparent 35%),linear-gradient(#130b08,#0c0706);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:760px;margin:auto;padding:16px 16px 100px}.brand{display:flex;align-items:center;gap:12px}.brand img{width:54px;height:54px;border-radius:16px}.brand h1{font-size:27px;margin:0}.sub,.meta,.small{color:var(--muted);line-height:1.45}.hero{margin:16px 0;padding:20px;border-radius:24px;background:linear-gradient(135deg,var(--orange),var(--red));color:#1d0b04;position:relative;overflow:hidden}.hero:after{content:"狐";position:absolute;right:14px;bottom:-25px;font-size:100px;opacity:.17}.row{display:flex;gap:10px;flex-wrap:wrap}.stat{flex:1;min-width:105px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}.stat strong{font-size:23px}.day,.card{background:linear-gradient(#26160f,#1b100c);border:1px solid var(--line);border-radius:20px;padding:16px;margin:12px 0}.day{cursor:pointer;border-left:6px solid var(--orange)}.pill,.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#4a281b;color:#ffd8bd;font-size:11px;margin-top:8px}.optional{border-style:dashed}.top{display:flex;justify-content:space-between;gap:8px}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:800}.primary{background:linear-gradient(135deg,var(--orange),var(--red));color:#1b0c05}.secondary{background:#392117;color:white;border:1px solid #60402f}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:10px;background:#120b08ee;border-top:1px solid var(--line);backdrop-filter:blur(12px)}.nav button{background:#28170f;color:#e9d2c6;border:1px solid #41281d;border-radius:12px;padding:10px 2px;font-size:11px}.nav button.active{background:linear-gradient(135deg,var(--orange),var(--red));color:#210d05;font-weight:900}.sets{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.set{background:#120a07;border:1px solid #41271b;border-radius:13px;padding:8px;text-align:center}.field,.set input,select,textarea{width:100%;background:#120a07;color:white;border:1px solid #533527;border-radius:12px;padding:10px;font:inherit}.set input{border-width:0 0 1px;border-radius:0;text-align:center;margin-bottom:5px}.set button{width:100%;border:0;border-radius:9px;padding:8px;background:#3b241a;color:white}.set button.done{background:var(--green);color:#06200e;font-weight:900}.tip{margin-top:10px;padding:10px;border-left:4px solid var(--orange);background:#120a07;border-radius:10px;font-size:13px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:430px){.grid2{grid-template-columns:1fr}}label{display:block;font-size:12px;color:#d9c2b6;margin:8px 0 4px}.kcal{font-size:35px;font-weight:900;color:var(--gold);margin:7px 0}.progress{height:9px;background:#3c2117;border-radius:99px;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,var(--orange),var(--gold))}canvas{width:100%;height:210px;background:#120a07;border:1px solid #41271b;border-radius:14px;margin-top:10px}table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:8px 5px;border-bottom:1px solid var(--line);text-align:left}.scroll{overflow:auto}h2{margin-top:24px}
+.scroll-title{font-family:Georgia,serif;letter-spacing:.4px}
+.rank-card{background:linear-gradient(135deg,#6f2d1f,#d94a2b);border:1px solid #ff9a5f;border-radius:20px;padding:16px;color:#fff3e8;position:relative;overflow:hidden}
+.rank-card:after{content:"忍";position:absolute;right:14px;bottom:-24px;font-size:92px;opacity:.14;font-weight:900}
+.chakra-wrap{margin-top:10px}
+.chakra-bar{height:13px;background:#2b1710;border:1px solid #6a3928;border-radius:999px;overflow:hidden}
+.chakra-bar>div{height:100%;background:linear-gradient(90deg,#ff7a1a,#ffbf3f,#ff5a36);box-shadow:0 0 14px #ff8a1f99}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.filter-chip{border:1px solid #68402d;background:#2a1710;color:#ffe6d2;border-radius:999px;padding:8px 11px;font-size:12px}
+.filter-chip.active{background:linear-gradient(135deg,#ff8a1f,#d94a2b);color:#1a0a03;font-weight:900}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+@media(min-width:620px){.metric-grid{grid-template-columns:repeat(4,1fr)}}
+.metric-card{background:#180d09;border:1px solid #4c2b1e;border-radius:16px;padding:12px}
+.metric-card strong{font-size:22px}
+.chart-wrap{position:relative;margin-top:12px;padding-left:24px;padding-bottom:24px}
+.chart-axis-top{font-weight:800;color:#ffbd3d;margin-top:12px}
+.y-axis-caption{position:absolute;left:-82px;top:50%;width:180px;text-align:center;transform:rotate(-90deg) translateY(-50%);transform-origin:center;color:#ffcf9f;font-size:12px;font-weight:800}
+.x-axis-caption{text-align:center;color:#ffcf9f;font-size:12px;font-weight:800;margin-top:4px}
+.chart-note{margin-top:8px;color:#c0aaa0;font-size:12px;line-height:1.45}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.legend-item{display:flex;align-items:center;gap:6px;background:#24140e;border:1px solid #4c2b1e;padding:6px 9px;border-radius:999px;font-size:12px}
+.legend-dot{width:9px;height:9px;border-radius:50%}
+.axis-label{font-size:11px;color:#c0aaa0}
+.kcal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+@media(max-width:520px){.kcal-grid{grid-template-columns:1fr}}
+.kcal-card{background:#180d09;border:1px solid #4c2b1e;border-radius:16px;padding:13px}
+.kcal-card strong{font-size:25px;color:#ffbd3d}
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.mode-switch button{border:1px solid #68402d;background:#2a1710;color:#ffe6d2;border-radius:12px;padding:10px}
+.mode-switch button.active{background:linear-gradient(135deg,#ff8a1f,#d94a2b);color:#1a0a03;font-weight:900}
+.parchment{background:linear-gradient(180deg,#3c2418,#24140e);border:1px solid #7e4f34;box-shadow:inset 0 0 0 1px #b87a5144}
+.mission-rank{font-size:12px;font-weight:900;color:#1a0a03;background:#ffbf3f;padding:5px 8px;border-radius:999px}
+
+
+/* VERSION 6 – polished mobile layout + shinobi visual system */
+:root{
+  --ink:#0c0807;
+  --paper:#2a180f;
+  --paper-light:#3a2115;
+  --ember:#ff7a18;
+  --ember-2:#ffb13b;
+  --seal:#b83a25;
+  --chakra:#ff9b26;
+}
+body{
+  background:
+    radial-gradient(circle at 90% -10%,rgba(255,126,28,.24),transparent 34%),
+    radial-gradient(circle at -10% 30%,rgba(182,48,31,.16),transparent 38%),
+    linear-gradient(180deg,#120a07 0%,#090605 100%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.055;
+  background:
+    repeating-linear-gradient(135deg,transparent 0 18px,#ff9b26 19px 20px,transparent 21px 38px);
+}
+.app{padding:14px 14px 104px}
+.brand{
+  min-width:0;
+  display:grid;
+  grid-template-columns:52px minmax(0,1fr);
+  align-items:center;
+  gap:11px;
+  padding:6px 2px 2px;
+}
+.brand img{width:52px;height:52px;flex:none}
+.brand>div{min-width:0}
+.brand h1{
+  font-size:clamp(21px,6vw,28px);
+  line-height:1.08;
+  overflow-wrap:anywhere;
+}
+.brand .sub{font-size:12px;margin-top:4px}
+.hero{
+  border:1px solid #ffbb7666;
+  box-shadow:0 14px 34px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.08);
+  padding:18px;
+}
+.hero h2{font-size:clamp(22px,7vw,30px)}
+.row{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.stat{
+  min-width:0;
+  padding:12px 10px;
+  overflow:hidden;
+  border-radius:16px;
+  position:relative;
+}
+.stat:after{
+  content:"";
+  position:absolute;
+  width:36px;height:36px;border:1px solid #ff9b2622;border-radius:50%;
+  right:-12px;bottom:-12px;
+}
+.stat small{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat strong{
+  display:block;
+  font-size:clamp(18px,5vw,24px);
+  line-height:1.1;
+  margin-top:3px;
+  white-space:nowrap;
+}
+.rank-card{
+  margin:12px 0;
+  padding:15px;
+  border-radius:18px;
+  background:
+    linear-gradient(135deg,rgba(111,45,31,.98),rgba(177,54,36,.96)),
+    repeating-linear-gradient(135deg,transparent 0 16px,rgba(255,255,255,.04) 17px 18px);
+}
+.rank-card .top{align-items:center}
+.chakra-bar{height:11px}
+.scroll-title{
+  position:relative;
+  font-family:Georgia,serif;
+  font-size:21px;
+  letter-spacing:.25px;
+  padding-left:16px;
+}
+.scroll-title:before{
+  content:"";
+  position:absolute;
+  left:0;top:3px;bottom:3px;width:5px;border-radius:9px;
+  background:linear-gradient(var(--ember-2),var(--seal));
+}
+.day{
+  position:relative;
+  overflow:hidden;
+  padding:15px;
+  border-left:0;
+  border-radius:18px;
+  background:
+    linear-gradient(180deg,rgba(58,33,21,.98),rgba(31,17,12,.98));
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+.day:before,.card.parchment:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  box-shadow:inset 0 0 0 1px rgba(255,184,105,.08);
+}
+.day .top{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:start;
+  gap:10px;
+}
+.day b{
+  min-width:0;
+  font-size:17px;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.mission-rank{
+  white-space:nowrap;
+  align-self:start;
+  margin:0;
+}
+.pill{max-width:100%;white-space:normal;line-height:1.3}
+.card{
+  overflow:hidden;
+  border-radius:18px;
+}
+.metric-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.metric-card{min-width:0;overflow:hidden}
+.metric-card .small{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.metric-card strong{
+  display:block;
+  font-size:clamp(17px,5vw,22px);
+  white-space:nowrap;
+}
+.filter-row{gap:6px}
+.filter-chip{font-size:11px;padding:7px 9px}
+.legend{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+}
+.legend-item{
+  min-width:0;
+  border-radius:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chart-wrap{
+  margin-top:10px;
+  padding:0;
+  background:linear-gradient(180deg,#140d09,#0e0907);
+  border:1px solid #482a1d;
+  border-radius:16px;
+  overflow:hidden;
+}
+.chart{
+  width:100%;
+  height:300px;
+  display:block;
+  margin:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+}
+.chart-axis-top{
+  font-size:13px;
+  margin:12px 0 6px;
+  color:#ffd19f;
+}
+.y-axis-caption,.x-axis-caption{display:none}
+.chart-note{margin-top:10px}
+.mode-switch button{min-height:42px}
+.kcal-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.kcal-card{min-width:0;padding:11px}
+.kcal-card strong{
+  display:block;
+  font-size:clamp(18px,5vw,24px);
+  white-space:nowrap;
+}
+.nav{z-index:50}
+.nav button{min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:520px){
+  .kcal-grid{grid-template-columns:1fr}
+}
+@media(max-width:390px){
+  .app{padding-left:10px;padding-right:10px}
+  .brand{grid-template-columns:46px minmax(0,1fr)}
+  .brand img{width:46px;height:46px}
+  .row{gap:6px}
+  .stat{padding:10px 8px}
+  .legend{grid-template-columns:1fr}
+  .mode-switch{grid-template-columns:1fr}
+  .nav{gap:4px;padding-left:6px;padding-right:6px}
+  .nav button{font-size:10px;padding:9px 1px}
+}
+/* scroll/seal accents inspired by ninja aesthetics, without official franchise graphics */
+.seal-mark{
+  width:34px;height:34px;border-radius:50%;
+  border:2px solid #ffb35f;
+  display:grid;place-items:center;
+  color:#ffcf91;font-family:Georgia,serif;font-weight:900;
+  box-shadow:inset 0 0 0 4px #7b2b1e,0 0 16px #ff7a1833;
+}
+
+
+.history-card{position:relative}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn-edit,.btn-delete{border:1px solid #65402e;border-radius:12px;padding:10px 13px;font-weight:800}
+.btn-edit{background:linear-gradient(135deg,#ffb13b,#ff7a18);color:#1b0b04}
+.btn-delete{background:#2b1511;color:#ffb7a7;border-color:#8a3b2c}
+.edit-banner{background:linear-gradient(135deg,#4b2418,#7e2f20);border:1px solid #d86a43;border-radius:16px;padding:13px;margin:12px 0;color:#ffe6d4}
+.edit-banner b{color:#ffcf8d}
+.date-row{margin-top:12px}
+
+.weight-progress-card{position:relative;overflow:hidden;padding:18px;border-radius:20px;background:radial-gradient(circle at 86% 18%,rgba(255,194,80,.17),transparent 27%),linear-gradient(135deg,#432619,#1e110c);border:1px solid #8a5336;box-shadow:0 14px 30px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,192,112,.06)}
+.weight-progress-card:after{content:"忍";position:absolute;right:12px;bottom:-38px;font-size:116px;font-weight:900;color:rgba(255,178,64,.075)}
+.weight-progress-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;position:relative;z-index:1}.weight-progress-title{font-family:Georgia,serif;font-size:19px;font-weight:900;color:#ffd69e}.weight-progress-values{text-align:right;white-space:nowrap}.weight-progress-values strong{display:block;font-size:26px;color:#fff7ef}
+.shinobi-track{position:relative;height:18px;margin-top:17px;background:#140b08;border:1px solid #74442e;border-radius:999px;overflow:hidden;box-shadow:inset 0 3px 9px rgba(0,0,0,.55)}.shinobi-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#c83f27,#ff861d,#ffca54);box-shadow:0 0 18px rgba(255,138,31,.58);position:relative}.shinobi-fill:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(255,255,255,.15) 11px 13px,transparent 14px 22px)}
+.shinobi-marker{position:absolute;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);border-radius:50%;background:#180b06;border:3px solid #ffd16d;box-shadow:0 0 0 3px #7d2f20,0 0 16px rgba(255,209,109,.72);display:grid;place-items:center;color:#ffd16d;font-size:12px;font-weight:900}.weight-progress-meta{display:flex;justify-content:space-between;gap:8px;margin-top:8px;color:#cdb4a6;font-size:11px}.single-home-stat{margin-top:10px;display:grid;grid-template-columns:1fr}.single-home-stat .stat strong{font-size:26px}.metric-mode-note{margin-top:10px;padding:10px 12px;border-radius:12px;background:#160f0c;border:1px solid #4b2c20;color:#d8c1b4;font-size:12px;line-height:1.45}
+
+.previous-performance{margin-top:12px;padding:12px;border:1px solid #6c442e;border-radius:14px;background:#160d09}
+.previous-performance strong{color:#ffc247}.previous-sets{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.previous-set{padding:6px 9px;border-radius:9px;background:#342016;font-size:12px}.progression-good{color:#72d995;margin-top:8px;font-weight:800}.progression-hold{color:#ffd17a;margin-top:8px;font-weight:700}
+</style></head><body><div class="app" id="app"></div><nav class="nav"> <button data-v="home">Start</button><button data-v="workouts">Training</button><button data-v="dashboard">Dashboard</button><button data-v="history">Verlauf</button><button data-v="more">Mehr</button></nav>
+<script>
+const EXERCISE_LIBRARY=[
+{name:"Reverse Butterfly",scheme:"3×12–15",muscles:"Hintere Schulter · mittlerer Trapez",tip:"Brust am Polster lassen; Schulterblätter kontrolliert nach hinten führen."},
+{name:"Rudern sitzend",scheme:"3×10–12",muscles:"Rücken · mittlerer Trapez",tip:"Ellbogen nach hinten führen und nicht aus dem Nacken ziehen."},
+{name:"Latzug",scheme:"3×10–12",muscles:"Latissimus · oberer Rücken",tip:"Zur oberen Brust ziehen, niemals hinter den Kopf."},
+{name:"Brustpresse",scheme:"3×10–12",muscles:"Brust · Trizeps",tip:"Schultern tief halten und kontrolliert drücken."},
+{name:"Schulterpresse",scheme:"3×10–12",muscles:"Schultern · Trizeps",tip:"Rücken am Polster lassen und nicht ins Hohlkreuz gehen."},
+{name:"Beinbeuger",scheme:"3×10–12",muscles:"Beinrückseite",tip:"Becken ruhig halten und die Rückführung bremsen."},
+{name:"Beinstrecker",scheme:"3×10–12",muscles:"Vorderer Oberschenkel",tip:"Ohne Schwung arbeiten und die Knie nicht hart einrasten."},
+{name:"Abduktoren",scheme:"3×12–15",muscles:"Seitlicher Po",tip:"Langsam öffnen und kontrolliert schließen."},
+{name:"Adduktoren",scheme:"3×12–15",muscles:"Innere Oberschenkel",tip:"Aufrecht sitzen und die Beine kontrolliert zusammenführen."},
+{name:"Rückenstrecker",scheme:"3×12–15",muscles:"Unterer Rücken · Gesäß",tip:"Nur bis zur geraden Körperlinie aufrichten, nicht überstrecken."},
+{name:"Bauchmaschine",scheme:"3×15–20",muscles:"Bauch",tip:"Aus dem Bauch einrollen, nicht nur mit den Armen ziehen."},
+{name:"Beinpresse",scheme:"3×12–15",muscles:"Beine · Po",tip:"Kontrolliert absenken; Knie folgen der Fußrichtung."},
+{name:"Shrugs · optional",scheme:"3×12–15",muscles:"Oberer Trapez",tip:"Schultern gerade hochziehen, kurz halten und nicht kreisen.",optional:true}
+];
+const ex=n=>JSON.parse(JSON.stringify(EXERCISE_LIBRARY.find(x=>x.name===n)));
+const PLANS={
+A:{title:"Rücken · Trapez · Haltung",exercises:[ex("Reverse Butterfly"),ex("Rudern sitzend"),ex("Latzug"),ex("Brustpresse"),ex("Beinbeuger"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]},
+B:{title:"Beine · Po · Core",exercises:[ex("Abduktoren"),ex("Adduktoren"),ex("Beinbeuger"),ex("Beinstrecker"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]},
+C:{title:"Ausgeglichenes Ganzkörpertraining",exercises:[ex("Schulterpresse"),ex("Brustpresse"),ex("Latzug"),ex("Rudern sitzend"),ex("Beinbeuger"),ex("Rückenstrecker"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]}
+}, INITIAL=[{"date":"2026-06-26","Gewicht":71.9,"Bauchnabel":90,"Hüfte":105,"Brustwarze":97,"Schenkel":57,"Arm":28,"Arm angespannt":29.6},{"date":"2026-07-03","Gewicht":71.6,"Bauchnabel":87.5,"Hüfte":102,"Brustwarze":99,"Schenkel":58,"Arm":28.5,"Arm angespannt":30.5},{"date":"2026-07-10","Gewicht":70.8,"Bauchnabel":86,"Hüfte":99,"Brustwarze":99,"Schenkel":57,"Arm":27,"Arm angespannt":29},{"date":"2026-07-18","Gewicht":70.0,"Bauchnabel":86,"Hüfte":102,"Brustwarze":98,"Schenkel":57,"Arm":28,"Arm angespannt":30},{"date":"2026-07-19","Gewicht":70.0,"Bauchnabel":null,"Hüfte":null,"Brustwarze":null,"Schenkel":null,"Arm":null,"Arm angespannt":null}], KEY='shinobi-fit-v11';let old=JSON.parse(localStorage.getItem('tami-ninja-v11')||localStorage.getItem('tami-ninja-v8-fixed')||'{}');let s=JSON.parse(localStorage.getItem(KEY)||'null')||{...old,measurements:INITIAL,profile:{...(old.profile||{}),currentWeight:70,targetWeight:65}};s.history=s.history||[];s.measurements=s.measurements||INITIAL;s.profile=s.profile||{currentWeight:70,targetWeight:65};s.current=s.current||null;s.xp=s.xp||0;
+const SEEDED_HISTORY=[
+ {seedId:'training-A-2026-07-14',day:'A',title:'Rücken · Trapez · Haltung',date:'2026-07-14T09:45:00.000Z',exerciseNames:['Reverse Butterfly','Rudern sitzend','Latzug','Brustpresse','Beinpresse','Beinbeuger','Bauchmaschine','Shrugs · optional'],values:{'0-0':'18','0-1':'18','0-2':'18','1-0':'18','1-1':'18','1-2':'18','2-0':'18','2-1':'25','2-2':'25','3-0':'13.3','3-1':'13.3','4-0':'32','4-1':'32','4-2':'32','5-0':'32','7-0':'8','7-1':'8'},reps:{'0-0':'12','0-1':'12','0-2':'12','1-0':'12','1-1':'12','1-2':'12','2-0':'12','2-1':'12','2-2':'10','3-0':'12','3-1':'12','4-0':'12','4-1':'12','4-2':'12','5-0':'10','7-0':'10','7-1':'10'},done:{'0-0':true,'0-1':true,'0-2':true,'1-0':true,'1-1':true,'1-2':true,'2-0':true,'2-1':true,'2-2':true,'3-0':true,'3-1':true,'4-0':true,'4-1':true,'4-2':true,'5-0':true,'7-0':true,'7-1':true},cardio:{type:'Laufband',minutes:15,intensity:'mittel',device:'100'},strengthMinutes:60,effort:'mittel',notes:'Aus den Trainingswerten vom 14.07.2026 übernommen.',kcal:427},
+ {seedId:'training-B-2026-07-17',day:'B',title:'Po · Beine',date:'2026-07-17T08:37:00.000Z',exerciseNames:['Beinpresse','Hip Thrust Maschine','Abduktoren','Beinbeuger','Beinstrecker','Rudern sitzend','Brustpresse','Bauchmaschine','Shrugs · optional'],values:{'0-0':'32','0-1':'32','0-2':'32','2-0':'25','2-1':'25','2-2':'25','3-0':'32','3-1':'32','3-2':'32','4-0':'25','4-1':'25','4-2':'25','5-0':'14','5-1':'14','5-2':'14','6-0':'11','6-1':'11','6-2':'11','7-0':'23','8-0':'2','8-1':'2'},reps:{'0-0':'15','0-1':'15','0-2':'15','2-0':'12','2-1':'12','2-2':'12','3-0':'12','3-1':'12','3-2':'10','4-0':'12','4-1':'11','4-2':'11','5-0':'12','5-1':'12','5-2':'12','6-0':'12','6-1':'12','6-2':'12','7-0':'12','8-0':'10','8-1':'10'},done:{'0-0':true,'0-1':true,'0-2':true,'2-0':true,'2-1':true,'2-2':true,'3-0':true,'3-1':true,'3-2':true,'4-0':true,'4-1':true,'4-2':true,'5-0':true,'5-1':true,'5-2':true,'6-0':true,'6-1':true,'6-2':true,'7-0':true,'8-0':true,'8-1':true},cardio:{type:'Laufband',minutes:15,intensity:'mittel',device:'100'},strengthMinutes:60,effort:'mittel',notes:'Aus den Trainingswerten vom 17.07.2026 übernommen.',kcal:427}
+];
+function migrateSeedHistory(){
+ for(const seed of SEEDED_HISTORY){
+  const exists=s.history.some(h=>h.seedId===seed.seedId||(h.day===seed.day&&String(h.date||'').slice(0,10)===seed.date.slice(0,10)));
+  if(!exists)s.history.push(JSON.parse(JSON.stringify(seed)));
+ }
+ s.history.sort((a,b)=>new Date(b.date)-new Date(a.date));
+}
+migrateSeedHistory();
+const MEASUREMENT_KEYS=['Gewicht','Bauchnabel','Hüfte','Brustwarze','Schenkel','Arm','Arm angespannt'];
+function carryForwardMeasurements(){
+  const last={};
+  s.measurements.sort((a,b)=>a.date.localeCompare(b.date));
+  s.measurements.forEach(m=>MEASUREMENT_KEYS.forEach(k=>{
+    const v=m[k];
+    if(v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))){m[k]=Number(v);last[k]=Number(v)}
+    else if(last[k]!==undefined)m[k]=last[k];
+  }));
+}
+carryForwardMeasurements();let view='home';
+const app=document.getElementById('app');function recalcChakra(){
+  s.xp=s.history.reduce((sum,h)=>sum+120+Object.values(h.done||{}).filter(Boolean).length*5,0);
+}
+function save(){carryForwardMeasurements();localStorage.setItem(KEY,JSON.stringify(s))}function brand(){return `<div class="brand"><img src="./icon.svg" alt=""><div><h1>Shinobi Fit</h1><div class="sub">Dein Shinobi-Fitnesspfad · Version 11</div></div></div>`}function weightProgress(){const start=71.9,target=65;const latest=(s.measurements.at(-1)?.Gewicht??s.profile.currentWeight??start);const total=start-target,lost=start-latest;const pct=Math.max(0,Math.min(100,total>0?(lost/total)*100:0));return{start,target,latest,lost,pct,remaining:Math.max(0,latest-target)}}
+function rank(){
+      let n=s.history.length;
+      if(n<5) return 'Genin';
+      if(n<12) return 'Chūnin';
+      if(n<20) return 'Tokubetsu Jōnin';
+      if(n<35) return 'Jōnin';
+      if(n<50) return 'ANBU';
+      if(n<75) return 'Sannin';
+      return 'Hokage';
+    }
+    function rankProgress(){
+      const steps=[0,5,12,20,35,50,75,100];
+      const n=s.history.length;
+      let lo=0,hi=5;
+      for(let i=0;i<steps.length-1;i++){if(n>=steps[i]&&n<steps[i+1]){lo=steps[i];hi=steps[i+1];break}}
+      if(n>=100){lo=100;hi=100}
+      return hi===lo?100:Math.max(0,Math.min(100,(n-lo)/(hi-lo)*100));
+    }
+    function nextRank(){
+      const names=['Genin','Chūnin','Tokubetsu Jōnin','Jōnin','ANBU','Sannin','Hokage'];
+      const steps=[0,5,12,20,35,50,75];
+      const n=s.history.length;
+      for(let i=0;i<steps.length-1;i++) if(n<steps[i+1]) return names[i+1];
+      return 'Hokage';
+    }
+function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===view)); if(view==='home')home();else if(view==='workouts')workouts();else if(view==='dashboard')dashboard();else if(view==='history')history();else if(view==='more')more();else day(view.split('-')[1]);bind()}
+function home(){const last=s.history[0],m=s.measurements.at(-1),wp=weightProgress();app.innerHTML=`${brand()}<div class="hero"><h2 style="margin:0">Ziel: 65 kg</h2><div>Stark · ausgewogen · konsequent</div></div><div class="weight-progress-card"><div class="weight-progress-top"><div><div class="weight-progress-title">Shinobi-Gewichtspfad</div><div class="small">${wp.lost>=0?wp.lost.toFixed(1)+' kg geschafft':Math.abs(wp.lost).toFixed(1)+' kg über Start'}</div></div><div class="weight-progress-values"><strong>${wp.latest.toFixed(1)} kg</strong><span class="small">noch ${wp.remaining.toFixed(1)} kg bis zum Ziel</span></div></div><div class="shinobi-track"><div class="shinobi-fill" style="width:${wp.pct}%"></div><div class="shinobi-marker" style="left:${Math.max(2,Math.min(98,wp.pct))}%">忍</div></div><div class="weight-progress-meta"><span>Start ${wp.start.toFixed(1)} kg</span><span>${wp.pct.toFixed(0)} %</span><span>Ziel ${wp.target.toFixed(1)} kg</span></div></div><div class="rank-card"><div class="small">Aktueller Ninja-Rang</div><div style="font-size:30px;font-weight:900">${rank()}</div><div class="chakra-wrap"><div class="top"><span>${s.xp} Chakra</span><span>Nächster Rang: ${nextRank()}</span></div><div class="chakra-bar"><div style="width:${rankProgress()}%"></div></div></div></div><div class="single-home-stat"><div class="stat"><small>Bauchumfang</small><br><strong>${m.Bauchnabel??"–"} cm</strong></div></div><h2 class="scroll-title">Heutige Mission wählen</h2>${Object.entries(PLANS).map(([k,p],i)=>`<div class="day parchment" data-day="${k}"><div class="top"><div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start;min-width:0"><span class="seal-mark">${['体','力','忍'][i]}</span><div style="min-width:0"><b>Mission ${i+1}</b><div class="sub" style="margin-top:3px">${p.title}</div></div></div><span class="mission-rank">${['B-Rang','A-Rang','S-Rang'][i]}</span></div><span class="pill">Cardio · ${p.exercises.length} Übungen</span></div>`).join('')}${last?`<h2>Letzte Mission</h2><div class="card"><b>Mission ${last.day}</b><div class="meta">${new Date(last.date).toLocaleDateString('de-DE')} · ca. ${last.kcal} kcal</div></div>`:''}`}
+function workouts(){app.innerHTML=`${brand()}<h2 class="scroll-title">Deine Missionen</h2>
+${Object.entries(PLANS).map(([k,p],i)=>`<div class="day parchment" data-day="${k}">
+  <div class="top">
+    <div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start;min-width:0">
+      <span class="seal-mark">${['体','力','忍'][i]}</span>
+      <div style="min-width:0"><b>Mission ${i+1}</b><div class="sub" style="margin-top:3px">${p.title}</div></div>
+    </div>
+    <span class="mission-rank">${['B-Rang','A-Rang','S-Rang'][i]}</span>
+  </div>
+  <span class="pill">Ganzkörper · Cardio · ${p.exercises.length} Übungen</span>
+</div>`).join('')}`}
+function setCount(scheme){const m=String(scheme).match(/^(\d+)/);return m?Number(m[1]):3}
+function repTop(scheme){const m=String(scheme).match(/[–-](\d+)/);return m?Number(m[1]):null}
+function exerciseNamesForRecord(record){if(Array.isArray(record.exerciseNames))return record.exerciseNames;if(Array.isArray(record.exercises))return record.exercises.map(x=>x.name);return (PLANS[record.day]?.exercises||[]).map(x=>x.name)}
+function previousExercise(name){for(const h of s.history){const names=exerciseNamesForRecord(h);const i=names.indexOf(name);if(i<0)continue;const sets=[];for(let j=0;j<6;j++){const q=i+'-'+j;const w=h.values?.[q],r=h.reps?.[q];if(w!==undefined||r!==undefined)sets.push({w,r,done:!!h.done?.[q]})}if(sets.length)return{date:h.date,sets}}return null}
+function suggestedForExercises(exercises){const values={},reps={};exercises.forEach((x,i)=>{const prev=previousExercise(x.name);if(!prev)return;for(let j=0;j<setCount(x.scheme);j++){const set=prev.sets[j]||prev.sets.at(-1);if(!set)continue;const q=i+'-'+j;if(set.w!==undefined&&set.w!=='')values[q]=set.w;if(set.r!==undefined&&set.r!=='')reps[q]=set.r}});return{values,reps}}
+function ensure(k){
+ if(!s.current||s.current.day!==k){const exercises=JSON.parse(JSON.stringify(PLANS[k].exercises));const suggested=suggestedForExercises(exercises);s.current={day:k,date:new Date().toISOString(),exercises,values:suggested.values,reps:suggested.reps,done:{},exerciseNotes:{},cardio:{type:'Laufband',minutes:15,intensity:'mittel',device:'',done:false},strengthMinutes:60,effort:'mittel',notes:''};}
+ s.current.exercises=s.current.exercises||JSON.parse(JSON.stringify(PLANS[k].exercises));s.current.exerciseNotes=s.current.exerciseNotes||{};s.current.cardio=s.current.cardio||{type:'Laufband',minutes:15,intensity:'mittel',device:'',done:false};save();
+}
+function previousHtml(exercise){const prev=previousExercise(exercise.name);if(!prev)return '<div class="previous-performance"><strong>Letztes Training</strong><div class="small">Für dieses Gerät ist noch kein vorheriger Wert gespeichert.</div></div>';const top=repTop(exercise.scheme);const valid=prev.sets.filter(x=>x.done&&Number(x.r)>0);const canIncrease=top&&valid.length>=setCount(exercise.scheme)&&valid.every(x=>Number(x.r)>=top);return `<div class="previous-performance"><strong>Letztes Mal · ${new Date(prev.date).toLocaleDateString('de-DE')}</strong><div class="previous-sets">${prev.sets.map((x,i)=>`<span class="previous-set">Satz ${i+1}: ${x.w||'–'} kg × ${x.r||'–'}</span>`).join('')}</div><div class="${canIncrease?'progression-good':'progression-hold'}">${canIncrease?'✓ Oberes Wiederholungsziel erreicht – beim nächsten Mal eine kleine Gewichtserhöhung testen.':'→ Diese Werte zunächst wieder anpeilen. Erhöhe erst, wenn alle vorgesehenen Sätze sauber am oberen Wiederholungsziel liegen.'}</div></div>`}
+function day(k){ensure(k);let p=PLANS[k],c=s.current,exercises=c.exercises,total=exercises.reduce((n,x)=>n+setCount(x.scheme),0)+1,done=Object.values(c.done).filter(Boolean).length+(c.cardio.done?1:0),e=estimate(c);app.innerHTML=`<div class="top"><button class="btn secondary" id="back">← Zurück</button><button class="btn primary" id="finish">${c.editingIndex!==undefined?'Änderungen speichern':'Mission abschließen'}</button></div><h1>Mission ${k}</h1><div class="sub">${p.title}</div>
+${c.editingIndex!==undefined?'<div class="edit-banner"><b>Bearbeitungsmodus</b><br>Du änderst eine bereits abgeschlossene Mission.</div>':''}
+<div class="card date-row"><label>Datum und Uhrzeit</label><input class="field" id="missionDate" type="datetime-local" value="${new Date(c.date).toISOString().slice(0,16)}"></div>
+<div class="card"><div class="top"><h3>Cardio</h3><button id="cardioDone" class="btn ${c.cardio.done?'primary':'secondary'}">${c.cardio.done?'✓ Cardio erledigt':'Cardio abhaken'}</button></div><div class="grid2"><div><label>Gerät</label><select id="ctype">${['Laufband','Laufband mit Steigung','Stepper','Fahrrad','Crosstrainer','Ruderergometer','Sonstiges'].map(x=>`<option ${c.cardio.type===x?'selected':''}>${x}</option>`).join('')}</select></div><div><label>Dauer (Min.)</label><input class="field" inputmode="decimal" id="cmin" value="${c.cardio.minutes}"></div><div><label>Intensität</label><select id="cint">${['locker','mittel','intensiv'].map(x=>`<option ${c.cardio.intensity===x?'selected':''}>${x}</option>`).join('')}</select></div><div><label>Geräte-Kalorien (optional)</label><input class="field" inputmode="numeric" id="cdevice" value="${c.cardio.device||''}"></div></div></div>
+<div class="card"><b>${done} von ${total} Aufgaben erledigt</b><div class="progress"><div style="width:${Math.min(100,done/total*100)}%"></div></div></div>
+${exercises.map((x,i)=>`<div class="card ${x.optional?'optional':''}"><div class="top"><div><h3 style="margin:0">${i+1}. ${x.name}</h3><div class="meta">${x.scheme} · ${x.muscles}${x.replacedFrom?`<br>Heute ersetzt: ${x.replacedFrom} → ${x.name}`:''}</div></div>${x.optional?'<span class="badge">optional</span>':''}</div>${previousHtml(x)}<div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0"><button class="btn secondary" data-copy="${i}">Letzte Werte übernehmen</button><select data-replace="${i}" style="max-width:230px"><option value="">Gerät besetzt? Ersetzen durch …</option>${EXERCISE_LIBRARY.filter(y=>y.name!==x.name).map(y=>`<option value="${y.name}">${y.name}</option>`).join('')}</select></div><div class="sets">${Array.from({length:setCount(x.scheme)},(_,j)=>{let q=i+'-'+j;return `<div class="set"><small>Satz ${j+1}</small><input inputmode="decimal" data-w="${q}" placeholder="kg" value="${c.values[q]||''}"><input inputmode="numeric" data-r="${q}" placeholder="Wdh." value="${c.reps[q]||''}"><button data-d="${q}" class="${c.done[q]?'done':''}">${c.done[q]?'✓ Fertig':'Abhaken'}</button></div>`}).join('')}</div><div class="tip"><b>Technik:</b> ${x.tip}</div><label style="margin-top:12px">Notiz zur Übung</label><input class="field" data-note="${i}" placeholder="z. B. Sitz höher einstellen" value="${c.exerciseNotes[i]||''}"></div>`).join('')}
+<div class="card"><h3>Weitere Übung hinzufügen</h3><div class="grid2"><select id="extraExercise"><option value="">Übung auswählen …</option>${EXERCISE_LIBRARY.map(x=>`<option value="${x.name}">${x.name}</option>`).join('')}</select><button class="btn primary" id="addExercise">Hinzufügen</button></div><div class="small">Für spontane Zusatzübungen oder wenn du auf ein anderes Gerät ausweichen möchtest.</div></div>
+<div class="card"><h3>Kalorienschätzung</h3><div class="grid2"><div><label>Krafttraining (Min.)</label><input class="field" inputmode="numeric" id="smin" value="${c.strengthMinutes}"></div><div><label>Belastung</label><select id="effort">${['locker','mittel','hoch'].map(x=>`<option ${c.effort===x?'selected':''}>${x}</option>`).join('')}</select></div></div><div class="kcal">ca. ${e.total} kcal</div><div class="small">Cardio ${e.cardio} · Kraft ${e.strength} kcal. MET-basierte Näherung.</div></div><div class="card"><label>Notiz</label><textarea id="notes">${c.notes}</textarea></div>`}
+function estimate(c){let w=+s.profile.currentWeight||70,M={Laufband:[3.5,5,7],'Laufband mit Steigung':[4.5,6.5,8.5],Stepper:[5,7,9],Fahrrad:[4,6,8],Crosstrainer:[4.5,6.5,8],Ruderergometer:[4,6,8],Sonstiges:[3.5,5.5,7.5]},ix={locker:0,mittel:1,intensiv:2}[c.cardio.intensity],cardio=Math.round((M[c.cardio.type]||M.Sonstiges)[ix]*3.5*w/200*(+c.cardio.minutes||0));if(+c.cardio.device>0)cardio=Math.round((cardio+(+c.cardio.device))/2);let sm={locker:3,mittel:4.5,hoch:6}[c.effort],strength=Math.round(sm*3.5*w/200*(+c.strengthMinutes||0));return{cardio,strength,total:cardio+strength}}
+function personalRecords(){const best={};for(const h of s.history){const names=exerciseNamesForRecord(h);names.forEach((name,i)=>{for(let j=0;j<6;j++){const q=i+'-'+j,w=Number(h.values?.[q]),r=Number(h.reps?.[q]);if(!Number.isFinite(w)||w<=0||!Number.isFinite(r)||r<=0)continue;const clean=name.replace(' · optional','');if(!best[clean]||w>best[clean].weight||(w===best[clean].weight&&r>best[clean].reps))best[clean]={weight:w,reps:r,date:h.date}}})}return best}
+function dashboard(){const latest=s.measurements.at(-1),first=s.measurements[0],metrics=['Gewicht','Bauchnabel','Hüfte','Brustwarze','Schenkel','Arm','Arm angespannt'];let selected=s.dashboardMetrics||['Gewicht'];if(selected.includes('Gewicht')&&selected.length>1)selected=['Gewicht'];if(!selected.length)selected=['Gewicht'];s.dashboardMetrics=selected;const delta=k=>{const v=(latest[k]??0)-(first[k]??0);return(v>0?'+':'')+v.toFixed(1)+(k==='Gewicht'?' kg':' cm')};const calorieItems=[];if(s.current){const e=estimate(s.current);calorieItems.push({id:'current',label:'Heute · laufende Mission',total:e.total,cardio:e.cardio,strength:e.strength})}s.history.forEach((h,i)=>{const c=estimate(h);calorieItems.push({id:'h'+i,label:new Date(h.date).toLocaleDateString('de-DE')+' · Mission '+h.day,total:h.kcal??c.total,cardio:c.cardio,strength:c.strength})});const selectedCalories=s.dashboardCalorieDay||calorieItems[0]?.id||'';const kcal=calorieItems.find(x=>x.id===selectedCalories)||calorieItems[0]||{total:0,cardio:0,strength:0};app.innerHTML=`${brand()}<h2 class="scroll-title">Interaktives Fortschritts-Dashboard</h2><div class="metric-grid">${metrics.map(k=>`<div class="metric-card"><div class="small">${k}</div><strong>${latest[k]??'-'}${k==='Gewicht'?' kg':' cm'}</strong><div class="small">${delta(k)} seit Start</div></div>`).join('')}</div><div class="card"><b>Messwerte im Diagramm</b><div class="filter-row">${metrics.map(k=>`<button class="filter-chip ${selected.includes(k)?'active':''}" data-metric="${k}">${k}</button>`).join('')}</div><div class="metric-mode-note">Gewicht wird immer allein in Kilogramm dargestellt. Alle Körperumfänge lassen sich miteinander kombinieren und bleiben auf einer gemeinsamen Zentimeter-Achse.</div><div id="chartLegend" class="legend"></div><div class="chart-axis-top" id="chartModeTitle">Darstellung</div><div class="chart-wrap"><canvas id="dynamicChart" class="chart"></canvas></div><div class="chart-note" id="chartExplanation"></div></div><div class="card"><h3 style="margin-top:0">Kalorien nach Trainingstag</h3><label>Tag auswählen</label><select id="calorieDay">${calorieItems.length?calorieItems.map(x=>`<option value="${x.id}" ${x.id===selectedCalories?'selected':''}>${x.label}</option>`).join(''):'<option>Noch kein Training gespeichert</option>'}</select><div class="kcal-grid"><div class="kcal-card"><div class="small">Gesamt</div><strong>ca. ${kcal.total} kcal</strong></div><div class="kcal-card"><div class="small">Cardio</div><strong>${kcal.cardio} kcal</strong></div><div class="kcal-card"><div class="small">Krafttraining</div><strong>${kcal.strength} kcal</strong></div></div><div class="chart-note">Die Werte sind MET-basierte Schätzungen und keine exakte Messung.</div></div><div class="card"><h3 style="margin-top:0">Persönliche Rekorde</h3><div class="grid2">${Object.entries(personalRecords()).sort((a,b)=>b[1].weight-a[1].weight).map(([name,v])=>`<div class="metric-card"><div class="small">${name}</div><strong>${v.weight} kg</strong><div class="small">${v.reps} Wdh. · ${new Date(v.date).toLocaleDateString('de-DE')}</div></div>`).join('')||'<div class="small">Noch keine Kraftwerte gespeichert.</div>'}</div></div><div class="card"><h3>Neue Messung</h3><div class="grid2">${['date',...metrics].map(x=>`<div><label>${x==='date'?'Datum':x}</label><input class="field mi" data-m="${x}" type="${x==='date'?'date':'number'}" step="0.1"></div>`).join('')}</div><button class="btn primary" id="addm" style="margin-top:12px">Speichern</button></div><div class="card scroll"><table><tr><th>Datum</th><th>Gew.</th><th>Bauch</th><th>Hüfte</th><th>Brust</th><th>Schenkel</th><th>Arm</th><th>Arm ang.</th></tr>${s.measurements.map(x=>`<tr><td>${new Date(x.date).toLocaleDateString('de-DE')}</td><td>${x.Gewicht}</td><td>${x.Bauchnabel??'–'}</td><td>${x.Hüfte??'–'}</td><td>${x.Brustwarze??'–'}</td><td>${x.Schenkel??'–'}</td><td>${x.Arm??'–'}</td><td>${x['Arm angespannt']??'–'}</td></tr>`).join('')}</table></div>`;setTimeout(()=>drawDynamicChart(selected),0)}
+function drawDynamicChart(selected){const colors=['#ff9b2f','#ff5d3d','#ffd057','#65d08b','#a58cff','#67cfff','#ff84c8'];const isWeight=selected.length===1&&selected[0]==='Gewicht';const series=selected.map((k,i)=>({name:k,values:s.measurements.map(x=>Number(x[k])||0),color:colors[i%colors.length],unit:isWeight?'kg':'cm'}));const legend=document.getElementById('chartLegend');if(legend)legend.innerHTML=series.map(q=>`<div class="legend-item"><span class="legend-dot" style="background:${q.color};box-shadow:0 0 8px ${q.color}88"></span><span>${q.name}: <b>${q.values.at(-1).toFixed(1)} ${q.unit}</b></span></div>`).join('');const title=document.getElementById('chartModeTitle');if(title)title.textContent=isWeight?'Gewichtsverlauf (kg)':'Umfangsverlauf (cm)';const explanation=document.getElementById('chartExplanation');if(explanation)explanation.textContent=isWeight?'Die horizontale Achse zeigt das Datum, die vertikale Achse dein Gewicht in Kilogramm.':'Die horizontale Achse zeigt das Datum, die vertikale Achse die ausgewählten Körperumfänge in Zentimetern.';const canvas=document.getElementById('dynamicChart');if(!canvas||!series.length)return;const width=Math.max(320,canvas.clientWidth),height=300,dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);const left=48,right=14,top=24,bottom=46;let values=series.flatMap(q=>q.values),min=Math.min(...values),max=Math.max(...values);if(min===max){min-=1;max+=1}const rawRange=max-min,stepBase=rawRange/4,magnitude=Math.pow(10,Math.floor(Math.log10(stepBase||1))),niceStep=Math.max(magnitude,Math.ceil(stepBase/magnitude)*magnitude);min=Math.floor((min-niceStep*.35)/niceStep)*niceStep;max=Math.ceil((max+niceStep*.35)/niceStep)*niceStep;const range=max-min||1;ctx.font='600 12px -apple-system,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';for(let i=0;i<=4;i++){const ratio=i/4,y=top+(height-top-bottom)*ratio,value=max-range*ratio;ctx.strokeStyle='rgba(255,209,159,.13)';ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(width-right,y);ctx.stroke();ctx.fillStyle='#efd6c7';ctx.fillText(value.toFixed(value<10?1:0),left-8,y)}ctx.textAlign='center';ctx.textBaseline='top';ctx.font='600 11px -apple-system,sans-serif';s.measurements.forEach((m,i)=>{const x=left+i*((width-left-right)/(s.measurements.length-1||1));ctx.fillStyle='#d8bfb1';ctx.fillText(new Date(m.date).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'}),x,height-bottom+13)});ctx.fillStyle='#ffcc91';ctx.font='700 11px -apple-system,sans-serif';ctx.textAlign='left';ctx.fillText(isWeight?'Gewicht (kg)':'Umfang (cm)',left,9);series.forEach(q=>{const pts=q.values.map((v,i)=>({x:left+i*((width-left-right)/(q.values.length-1||1)),y:top+(max-v)/range*(height-top-bottom)}));ctx.save();ctx.strokeStyle=q.color;ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.shadowColor=q.color;ctx.shadowBlur=9;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();ctx.restore();pts.forEach((p,i)=>{ctx.fillStyle='#120a07';ctx.strokeStyle=q.color;ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();ctx.stroke();if(i===0||i===pts.length-1){ctx.fillStyle='#fff6ec';ctx.font='700 10px -apple-system,sans-serif';ctx.textAlign='center';ctx.fillText(`${q.values[i].toFixed(1)} ${q.unit}`,p.x,Math.max(top,p.y-18))}})})}
+function chart(id,series){let c=document.getElementById(id),ctx=c.getContext('2d'),w=c.width=c.clientWidth*2,h=c.height=420,vals=series.flatMap(x=>x.v),mn=Math.min(...vals),mx=Math.max(...vals),pad=45,col=['#ff8a1f','#ff5a36'];ctx.scale(2,2);ctx.strokeStyle='#4b2a1d';for(let i=0;i<4;i++){let y=25+i*50;ctx.beginPath();ctx.moveTo(20,y);ctx.lineTo(w/2-20,y);ctx.stroke()}series.forEach((q,z)=>{ctx.strokeStyle=col[z];ctx.lineWidth=3;ctx.beginPath();q.v.forEach((v,i)=>{let x=25+i*((w/2-50)/(q.v.length-1||1)),y=180-(v-mn)/(mx-mn||1)*140;i?ctx.lineTo(x,y):ctx.moveTo(x,y);ctx.fillStyle=col[z];ctx.fillRect(x-3,y-3,6,6)});ctx.stroke();ctx.fillStyle=col[z];ctx.fillText(q.n,25+z*85,15)})}
+function charts(){chart('cw',[{n:'Gewicht',v:s.measurements.map(x=>x.Gewicht)}]);chart('cm',[{n:'Bauch',v:s.measurements.map(x=>x.Bauchnabel)},{n:'Hüfte',v:s.measurements.map(x=>x.Hüfte)}])}
+function history(){
+  app.innerHTML=`${brand()}<h2>Missionsverlauf</h2>${
+    s.history.length
+      ?s.history.map((x,i)=>`<div class="card history-card">
+        <div class="top">
+          <div><b>Mission ${x.day} · ${x.title}</b><div class="meta">${new Date(x.date).toLocaleString('de-DE')}</div></div>
+          <span class="mission-rank">${['B-Rang','A-Rang','S-Rang'][['A','B','C'].indexOf(x.day)]||'Mission'}</span>
+        </div>
+        <div class="meta" style="margin-top:8px">${x.cardio?.type||'Kein Cardio'} ${x.cardio?.minutes||0} Min. · ca. ${x.kcal??estimate(x).total} kcal<br>${x.notes||'Keine Notiz'}</div>
+        <div class="history-actions">
+          <button class="btn-edit" data-edit-history="${i}">Bearbeiten</button>
+          <button class="btn-delete" data-delete-history="${i}">Löschen</button>
+        </div>
+      </div>`).join('')
+      :'<div class="card">Noch keine Mission abgeschlossen.</div>'
+  }`;
+}
+function more(){app.innerHTML=`${brand()}<h2>Mehr</h2><div class="card"><label>Aktuelles Gewicht</label><input class="field" id="weight" value="${s.profile.currentWeight}"><button class="btn primary" id="savew" style="margin-top:10px">Speichern</button></div><div class="card"><b>Kalorienhinweis</b><div class="meta">Eine exakte Berechnung aus Trainingsgewicht und Wiederholungen ist nicht möglich. Die App schätzt mit Körpergewicht, Dauer, Intensität und MET-Werten.</div></div><div class="card"><b>Trapez & Haltung</b><div class="meta">Shrugs stehen in jeder Mission optional am Ende. Bei ausstrahlenden Schmerzen, Taubheit, Kraftverlust oder anhaltender Verschlechterung bitte medizinisch bzw. physiotherapeutisch abklären.</div></div><div class="card"><button class="btn secondary" id="export">Daten exportieren</button> <button class="btn secondary" id="reset">Daten löschen</button></div>`}
+function bind(){
+document.querySelectorAll('[data-edit-history]').forEach(btn=>btn.onclick=()=>{
+  const i=Number(btn.dataset.editHistory);
+  const original=s.history[i];
+  if(!original)return;
+  s.current=JSON.parse(JSON.stringify(original));
+  s.current.editingIndex=i;
+  save();
+  view='day-'+s.current.day;
+  render();
+});
+document.querySelectorAll('[data-delete-history]').forEach(btn=>btn.onclick=()=>{
+  const i=Number(btn.dataset.deleteHistory);
+  const item=s.history[i];
+  if(!item)return;
+  if(confirm(`Mission ${item.day} vom ${new Date(item.date).toLocaleDateString('de-DE')} wirklich löschen?`)){
+    s.history.splice(i,1);
+    recalcChakra();
+    save();
+    render();
+  }
+});
+const calorieDay=document.getElementById('calorieDay');
+if(calorieDay)calorieDay.onchange=()=>{s.dashboardCalorieDay=calorieDay.value;save();render()};
+document.querySelectorAll('[data-metric]').forEach(b=>b.onclick=()=>{s.dashboardMetrics=s.dashboardMetrics||['Gewicht'];const k=b.dataset.metric;if(k==='Gewicht')s.dashboardMetrics=['Gewicht'];else{if(s.dashboardMetrics.includes('Gewicht'))s.dashboardMetrics=[k];else if(s.dashboardMetrics.includes(k)){if(s.dashboardMetrics.length>1)s.dashboardMetrics=s.dashboardMetrics.filter(x=>x!==k)}else s.dashboardMetrics.push(k)}save();render()});document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{view=b.dataset.v;render()});document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{view='day-'+b.dataset.day;render()});let q=id=>document.getElementById(id);
+if(q('missionDate'))q('missionDate').onchange=()=>{
+  const value=q('missionDate').value;
+  if(value){s.current.date=new Date(value).toISOString();save();}
+};
+if(q('back'))q('back').onclick=()=>{view='workouts';render()};
+document.querySelectorAll('[data-w]').forEach(x=>x.oninput=()=>{s.current.values[x.dataset.w]=x.value;save()});
+document.querySelectorAll('[data-r]').forEach(x=>x.oninput=()=>{s.current.reps[x.dataset.r]=x.value;save()});
+document.querySelectorAll('[data-note]').forEach(x=>x.oninput=()=>{s.current.exerciseNotes[x.dataset.note]=x.value;save()});
+document.querySelectorAll('[data-d]').forEach(x=>x.onclick=()=>{s.current.done[x.dataset.d]=!s.current.done[x.dataset.d];save();render()});
+[['ctype','type'],['cmin','minutes'],['cint','intensity'],['cdevice','device']].forEach(([id,k])=>{if(q(id)){q(id).oninput=()=>{s.current.cardio[k]=q(id).value;save()};q(id).onchange=()=>{s.current.cardio[k]=q(id).value;save();if(id==='ctype'||id==='cint')render()}}});
+if(q('cardioDone'))q('cardioDone').onclick=()=>{s.current.cardio.done=!s.current.cardio.done;save();render()};
+if(q('smin'))q('smin').oninput=()=>{s.current.strengthMinutes=q('smin').value;save()};
+if(q('effort'))q('effort').onchange=()=>{s.current.effort=q('effort').value;save();render()};
+if(q('notes'))q('notes').oninput=()=>{s.current.notes=q('notes').value;save()};
+document.querySelectorAll('[data-copy]').forEach(btn=>btn.onclick=()=>{const i=Number(btn.dataset.copy),x=s.current.exercises[i],prev=previousExercise(x.name);if(!prev)return alert('Für diese Übung gibt es noch keine früheren Werte.');for(let j=0;j<setCount(x.scheme);j++){const set=prev.sets[j]||prev.sets.at(-1);if(!set)continue;const key=i+'-'+j;s.current.values[key]=set.w??'';s.current.reps[key]=set.r??''}save();render()});
+document.querySelectorAll('[data-replace]').forEach(sel=>sel.onchange=()=>{if(!sel.value)return;const i=Number(sel.dataset.replace),old=s.current.exercises[i],replacement=JSON.parse(JSON.stringify(EXERCISE_LIBRARY.find(x=>x.name===sel.value)));replacement.replacedFrom=old.replacedFrom||old.name;s.current.exercises[i]=replacement;for(let j=0;j<6;j++){delete s.current.values[i+'-'+j];delete s.current.reps[i+'-'+j];delete s.current.done[i+'-'+j]}const prev=previousExercise(replacement.name);if(prev)for(let j=0;j<setCount(replacement.scheme);j++){const set=prev.sets[j]||prev.sets.at(-1);if(set){s.current.values[i+'-'+j]=set.w??'';s.current.reps[i+'-'+j]=set.r??''}}save();render()});
+if(q('addExercise'))q('addExercise').onclick=()=>{const name=q('extraExercise').value;if(!name)return alert('Bitte zuerst eine Übung auswählen.');const item=JSON.parse(JSON.stringify(EXERCISE_LIBRARY.find(x=>x.name===name)));const i=s.current.exercises.length;s.current.exercises.push(item);const prev=previousExercise(name);if(prev)for(let j=0;j<setCount(item.scheme);j++){const set=prev.sets[j]||prev.sets.at(-1);if(set){s.current.values[i+'-'+j]=set.w??'';s.current.reps[i+'-'+j]=set.r??''}}save();render()};
+if(q('finish'))q('finish').onclick=()=>{
+  let e=estimate(s.current),p=PLANS[s.current.day];
+  const editingIndex=s.current.editingIndex;
+  const record={...s.current,title:p.title,kcal:e.total,exerciseNames:s.current.exercises.map(x=>x.name)};
+  delete record.editingIndex;
+  if(editingIndex!==undefined&&s.history[editingIndex]){
+    s.history[editingIndex]=record;
+  }else{
+    s.history.unshift(record);
+  }
+  s.history.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  recalcChakra();
+  s.current=null;
+  save();
+  view='history';
+  render();
+};if(q('addm'))q('addm').onclick=()=>{let m={};document.querySelectorAll('.mi').forEach(x=>{const k=x.dataset.m;m[k]=k==='date'?x.value:(x.value.trim()===''?null:Number(x.value))});if(!m.date||m.Gewicht===null||!Number.isFinite(m.Gewicht))return alert('Bitte Datum und Gewicht eintragen.');s.measurements.push(m);carryForwardMeasurements();s.profile.currentWeight=m.Gewicht;save();render()};if(q('savew'))q('savew').onclick=()=>{s.profile.currentWeight=+q('weight').value||s.profile.currentWeight;save();render()};if(q('export'))q('export').onclick=()=>{let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(s,null,2)],{type:'application/json'}));a.download='shinobi-fit-backup.json';a.click()};if(q('reset'))q('reset').onclick=()=>{if(confirm('Alle lokalen Daten löschen?')){localStorage.removeItem(KEY);location.reload()}}}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});render();
+</script></body></html>
