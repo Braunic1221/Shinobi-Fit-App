@@ -1,13 +1,17 @@
-# Shinobi Fit – Version 11
+# Shinobi Fit – Version 12
 
-Diese Dateien sind für GitHub Pages vorbereitet.
+Statische PWA für GitHub Pages.
 
-## Veröffentlichung
+## Aktualisierung
 
-1. Alle Dateien in ein öffentliches GitHub-Repository hochladen.
-2. Unter **Settings → Pages** als Quelle **Deploy from a branch** auswählen.
-3. Branch **main** und Ordner **/(root)** auswählen.
-4. Den von GitHub angezeigten Pages-Link in Safari öffnen.
-5. Über **Teilen → Zum Home-Bildschirm** installieren.
+Alle Dateien dieses Ordners in das bestehende GitHub-Repository hochladen und vorhandene Dateien ersetzen. GitHub Pages veröffentlicht die neue Version automatisch.
 
-Die Trainings- und Messdaten werden lokal im Browser gespeichert. Vor einem Browser- oder Gerätewechsel sollte in Shinobi Fit ein Backup exportiert werden.
+## Neu in Version 12
+
+- Training vom 19.07.2026 ergänzt
+- kompakte Ampellogik für die Progression
+- Gewichtserhöhung erst nach zwei erfolgreichen Einheiten hintereinander bei gleichem Gewicht
+- nur die letzte Einheit bleibt sichtbar
+- Technikhinweise bleiben vollständig erhalten
+- automatischer Fokus auf den nächsten offenen Satz
+- Backup-Import und -Export
