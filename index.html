@@ -299,9 +299,9 @@ const EXERCISE_LIBRARY=[
 ];
 const ex=n=>JSON.parse(JSON.stringify(EXERCISE_LIBRARY.find(x=>x.name===n)));
 const PLANS={
-A:{title:"Rücken · Trapez · Haltung",exercises:[ex("Reverse Butterfly"),ex("Rudern sitzend"),ex("Latzug"),ex("Brustpresse"),ex("Beinbeuger"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]},
-B:{title:"Beine · Po · Core",exercises:[ex("Abduktoren"),ex("Adduktoren"),ex("Beinbeuger"),ex("Beinstrecker"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]},
-C:{title:"Ausgeglichenes Ganzkörpertraining",exercises:[ex("Schulterpresse"),ex("Brustpresse"),ex("Latzug"),ex("Rudern sitzend"),ex("Beinbeuger"),ex("Rückenstrecker"),ex("Bauchmaschine"),ex("Beinpresse"),ex("Shrugs · optional")]}
+A:{title:"Ganzkörper · Fokus Rücken & Haltung",exercises:[ex("Reverse Butterfly"),ex("Rudern sitzend"),ex("Latzug"),ex("Brustpresse"),ex("Beinpresse"),ex("Beinbeuger"),ex("Bauchmaschine"),ex("Schulterpresse"),ex("Shrugs · optional")]},
+B:{title:"Ganzkörper · Fokus Beine & Po",exercises:[ex("Beinpresse"),ex("Beinbeuger"),ex("Beinstrecker"),ex("Abduktoren"),ex("Latzug"),ex("Brustpresse"),ex("Schulterpresse"),ex("Bauchmaschine"),ex("Shrugs · optional")]},
+C:{title:"Ganzkörper · Fokus Brust & Schultern",exercises:[ex("Brustpresse"),ex("Schulterpresse"),ex("Latzug"),ex("Rudern sitzend"),ex("Reverse Butterfly"),ex("Beinpresse"),ex("Beinbeuger"),ex("Bauchmaschine"),ex("Shrugs · optional")]}
 }, INITIAL=[{"date":"2026-06-26","Gewicht":71.9,"Bauchnabel":90,"Hüfte":105,"Brustwarze":97,"Schenkel":57,"Arm":28,"Arm angespannt":29.6},{"date":"2026-07-03","Gewicht":71.6,"Bauchnabel":87.5,"Hüfte":102,"Brustwarze":99,"Schenkel":58,"Arm":28.5,"Arm angespannt":30.5},{"date":"2026-07-10","Gewicht":70.8,"Bauchnabel":86,"Hüfte":99,"Brustwarze":99,"Schenkel":57,"Arm":27,"Arm angespannt":29},{"date":"2026-07-18","Gewicht":70.0,"Bauchnabel":86,"Hüfte":102,"Brustwarze":98,"Schenkel":57,"Arm":28,"Arm angespannt":30},{"date":"2026-07-19","Gewicht":70.0,"Bauchnabel":null,"Hüfte":null,"Brustwarze":null,"Schenkel":null,"Arm":null,"Arm angespannt":null}], KEY='shinobi-fit-v13';let old=JSON.parse(localStorage.getItem('shinobi-fit-v12')||localStorage.getItem('shinobi-fit-v11')||localStorage.getItem('tami-ninja-v11')||localStorage.getItem('tami-ninja-v8-fixed')||'{}');let s=JSON.parse(localStorage.getItem(KEY)||'null')||{...old,measurements:old.measurements||INITIAL,profile:{...(old.profile||{}),currentWeight:old.profile?.currentWeight??70,targetWeight:old.profile?.targetWeight??65}};s.history=s.history||[];s.measurements=s.measurements||INITIAL;s.profile=s.profile||{currentWeight:70,targetWeight:65};s.current=s.current||null;s.xp=s.xp||0;s.lastMissionResult=s.lastMissionResult||null;
 const SEEDED_HISTORY=[
  {seedId:'training-A-2026-07-14',day:'A',title:'Rücken · Trapez · Haltung',date:'2026-07-14T09:45:00.000Z',exerciseNames:['Reverse Butterfly','Rudern sitzend','Latzug','Brustpresse','Beinpresse','Beinbeuger','Bauchmaschine','Shrugs · optional'],values:{'0-0':'18','0-1':'18','0-2':'18','1-0':'18','1-1':'18','1-2':'18','2-0':'18','2-1':'25','2-2':'25','3-0':'13.3','3-1':'13.3','4-0':'32','4-1':'32','4-2':'32','5-0':'32','7-0':'8','7-1':'8'},reps:{'0-0':'12','0-1':'12','0-2':'12','1-0':'12','1-1':'12','1-2':'12','2-0':'12','2-1':'12','2-2':'10','3-0':'12','3-1':'12','4-0':'12','4-1':'12','4-2':'12','5-0':'10','7-0':'10','7-1':'10'},done:{'0-0':true,'0-1':true,'0-2':true,'1-0':true,'1-1':true,'1-2':true,'2-0':true,'2-1':true,'2-2':true,'3-0':true,'3-1':true,'4-0':true,'4-1':true,'4-2':true,'5-0':true,'7-0':true,'7-1':true},cardio:{type:'Laufband',minutes:15,intensity:'mittel',device:'100'},strengthMinutes:60,effort:'mittel',notes:'Aus den Trainingswerten vom 14.07.2026 übernommen.',kcal:427},
@@ -341,7 +341,40 @@ carryForwardMeasurements();let view='home';
 const app=document.getElementById('app');function recalcChakra(){
   s.xp=s.history.reduce((sum,h)=>sum+120+Object.values(h.done||{}).filter(Boolean).length*5,0);
 }
-function save(){carryForwardMeasurements();localStorage.setItem(KEY,JSON.stringify(s))}function brand(){return `<div class="brand"><img src="./icon.svg" alt=""><div><h1>Shinobi Fit</h1><div class="sub">Dein Shinobi-Fitnesspfad · Version 13.2</div></div></div>`}function weightProgress(){const start=71.9,target=65;const latest=(s.measurements.at(-1)?.Gewicht??s.profile.currentWeight??start);const total=start-target,lost=start-latest;const pct=Math.max(0,Math.min(100,total>0?(lost/total)*100:0));return{start,target,latest,lost,pct,remaining:Math.max(0,latest-target)}}
+function migrateCurrentPlan(){
+  if(!s.current||!PLANS[s.current.day]||s.planVersion==='13.3')return;
+  const oldExercises=s.current.exercises||[];
+  const oldValues=s.current.values||{},oldReps=s.current.reps||{},oldDone=s.current.done||{},oldSkipped=s.current.skipped||{},oldNotes=s.current.exerciseNotes||{};
+  const byName={};
+  oldExercises.forEach((exercise,i)=>{
+    const name=exercise?.name;
+    if(!name)return;
+    byName[name]={values:{},reps:{},done:{},skipped:!!oldSkipped[i],note:oldNotes[i]||''};
+    for(let j=0;j<6;j++){
+      const key=i+'-'+j;
+      if(oldValues[key]!==undefined)byName[name].values[j]=oldValues[key];
+      if(oldReps[key]!==undefined)byName[name].reps[j]=oldReps[key];
+      if(oldDone[key]!==undefined)byName[name].done[j]=oldDone[key];
+    }
+  });
+  const exercises=JSON.parse(JSON.stringify(PLANS[s.current.day].exercises));
+  const suggested=suggestedForExercises(exercises);
+  const values={...suggested.values},reps={...suggested.reps},done={},skipped={},exerciseNotes={};
+  exercises.forEach((exercise,i)=>{
+    const old=byName[exercise.name];
+    if(!old)return;
+    for(let j=0;j<6;j++){
+      const key=i+'-'+j;
+      if(old.values[j]!==undefined)values[key]=old.values[j];
+      if(old.reps[j]!==undefined)reps[key]=old.reps[j];
+      if(old.done[j]!==undefined)done[key]=old.done[j];
+    }
+    if(old.skipped)skipped[i]=true;
+    if(old.note)exerciseNotes[i]=old.note;
+  });
+  s.current={...s.current,exercises,values,reps,done,skipped,exerciseNotes};
+}
+function save(){carryForwardMeasurements();localStorage.setItem(KEY,JSON.stringify(s))}function brand(){return `<div class="brand"><img src="./icon.svg" alt=""><div><h1>Shinobi Fit</h1><div class="sub">Dein Shinobi-Fitnesspfad · Version 13.3</div></div></div>`}function weightProgress(){const start=71.9,target=65;const latest=(s.measurements.at(-1)?.Gewicht??s.profile.currentWeight??start);const total=start-target,lost=start-latest;const pct=Math.max(0,Math.min(100,total>0?(lost/total)*100:0));return{start,target,latest,lost,pct,remaining:Math.max(0,latest-target)}}
 function rank(){
       let n=s.history.length;
       if(n<5) return 'Genin';
@@ -367,6 +400,7 @@ function rank(){
       for(let i=0;i<steps.length-1;i++) if(n<steps[i+1]) return names[i+1];
       return 'Hokage';
     }
+migrateCurrentPlan();s.planVersion='13.3';recalcChakra();save();
 function render(){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===view)); if(view==='home')home();else if(view==='workouts')workouts();else if(view==='dashboard')dashboard();else if(view==='history')history();else if(view==='more')more();else if(view.startsWith('summary-'))missionSummary(Number(view.split('-')[1]));else day(view.split('-')[1]);bind()}
 function home(){const last=s.history[0],m=s.measurements.at(-1),wp=weightProgress();app.innerHTML=`${brand()}<div class="hero"><h2 style="margin:0">Ziel: 65 kg</h2><div>Stark · ausgewogen · konsequent</div></div><div class="weight-progress-card"><div class="weight-progress-top"><div><div class="weight-progress-title">Shinobi-Gewichtspfad</div><div class="small">${wp.lost>=0?wp.lost.toFixed(1)+' kg geschafft':Math.abs(wp.lost).toFixed(1)+' kg über Start'}</div></div><div class="weight-progress-values"><strong>${wp.latest.toFixed(1)} kg</strong><span class="small">noch ${wp.remaining.toFixed(1)} kg bis zum Ziel</span></div></div><div class="shinobi-track"><div class="shinobi-fill" style="width:${wp.pct}%"></div><div class="shinobi-marker" style="left:${Math.max(2,Math.min(98,wp.pct))}%">忍</div></div><div class="weight-progress-meta"><span>Start ${wp.start.toFixed(1)} kg</span><span>${wp.pct.toFixed(0)} %</span><span>Ziel ${wp.target.toFixed(1)} kg</span></div></div><div class="rank-card"><div class="small">Aktueller Ninja-Rang</div><div style="font-size:30px;font-weight:900">${rank()}</div><div class="chakra-wrap"><div class="top"><span>${s.xp} Chakra</span><span>Nächster Rang: ${nextRank()}</span></div><div class="chakra-bar"><div style="width:${rankProgress()}%"></div></div></div></div><div class="single-home-stat"><div class="stat"><small>Bauchumfang</small><br><strong>${m.Bauchnabel??"–"} cm</strong></div></div><h2 class="scroll-title">Heutige Mission wählen</h2>${Object.entries(PLANS).map(([k,p],i)=>`<div class="day parchment" data-day="${k}"><div class="top"><div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start;min-width:0"><span class="seal-mark">${['体','力','忍'][i]}</span><div style="min-width:0"><b>Mission ${i+1}</b><div class="sub" style="margin-top:3px">${p.title}</div></div></div><span class="mission-rank">${['B-Rang','A-Rang','S-Rang'][i]}</span></div><span class="pill">Cardio · ${p.exercises.length} Übungen</span></div>`).join('')}${(()=>{const mo=periodSummary(1),mus=muscleSummary(),max=Math.max(1,...Object.values(mus));return `<h2>Shinobi-Statistik</h2><div class="card"><div class="streak-fire">🔥 ${streakWeeks()} Wochen in Folge</div><div class="small">Streak zählt bei mindestens 3 Missionen pro Woche.</div><div class="summary-grid" style="margin-top:12px"><div class="summary-card"><strong>${mo.trainings}</strong>Trainings diesen Monat</div><div class="summary-card"><strong>${mo.sets}</strong>absolvierte Sätze</div><div class="summary-card"><strong>${mo.cardioMin}</strong>Cardio-Minuten</div><div class="summary-card"><strong>${mo.prs}</strong>neue Rekorde</div></div></div><div class="card"><b>Muskelgruppen · letzte 12 Trainings</b>${Object.entries(mus).map(([k,v])=>`<div class="small" style="margin-top:8px">${k} · ${v}</div><div class="progress"><div style="width:${v/max*100}%"></div></div>`).join('')}</div>`})()}${last?`<h2>Letzte Mission</h2><div class="card"><b>Mission ${last.day}</b><div class="meta">${new Date(last.date).toLocaleDateString('de-DE')} · ${missionGrade(last)}-Rang · ca. ${last.kcal} kcal</div></div>`:''}`}
 function workouts(){app.innerHTML=`${brand()}<h2 class="scroll-title">Deine Missionen</h2>
