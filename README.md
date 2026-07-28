@@ -1,12 +1,12 @@
-# Shinobi Fit – Version 13.5.4
+# Shinobi Fit – Version 13.5.5
 
 ## Änderungen gegenüber Version 13.2
 - Chakra wird beim Start und nach Änderungen zuverlässig aus der Trainingshistorie neu berechnet.
 - Mission A, B und C sind jetzt jeweils Ganzkörpertrainings mit unterschiedlichem Fokus.
 - Jede Mission enthält 8 Pflichtübungen plus optionale Shrugs.
 - Hip Thrusts wurden aus Mission B entfernt.
-- Eine bereits laufende Mission wird beim ersten Start von Version 13.5.4 anhand der Übungsnamen auf den neuen Plan übertragen; bereits eingegebene Werte bleiben soweit möglich erhalten.
-- Service-Worker-Cache wurde auf Version 13.5.4 aktualisiert.
+- Eine bereits laufende Mission wird beim ersten Start von Version 13.5.5 anhand der Übungsnamen auf den neuen Plan übertragen; bereits eingegebene Werte bleiben soweit möglich erhalten.
+- Service-Worker-Cache wurde auf Version 13.5.5 aktualisiert.
 
 Shinobi Fit Version 13.2
 
@@ -15,7 +15,7 @@ Neu: Übungen überspringen und reaktivieren, sichere Gerätezuordnung nach Name
 Aktuelles Training vom 21.07.2026 wurde als eindeutiger Datensatz ergänzt.
 
 
-## Ergänzung 13.5.4
+## Ergänzung 13.5.5
 - Mission B vom 24.07.2026 als abgeschlossen ergänzt (ohne erfundene Gewichte/Wiederholungen)
 - Lokale automatische und manuelle Backups mit Wiederherstellung
 - Backup-Export und -Import
