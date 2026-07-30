@@ -1,5 +1,5 @@
 {
-  "name": "Shinobi Fit v14.0.1",
+  "name": "Shinobi Fit v14.0.2",
   "short_name": "Shinobi Fit",
   "id": "./",
   "start_url": "./",
@@ -21,5 +21,5 @@
       "purpose": "any maskable"
     }
   ],
-  "version": "14.0.1"
+  "version": "14.0.2"
 }
