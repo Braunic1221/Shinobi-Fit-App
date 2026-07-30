@@ -1,4 +1,4 @@
-# Shinobi Fit – Version 14.0 Final
+# Shinobi Fit – Version 14.0.1 Final
 
 ## Neue Struktur
 - Start: aktueller Charakterrang, Chakra-Fortschritt, Gewichtspfad, Streak, Missionsstart und letzte Mission
