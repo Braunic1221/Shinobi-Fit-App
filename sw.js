@@ -1,4 +1,4 @@
-const CACHE='shinobi-fit-v13.5.6-github-20260729';
+const CACHE='shinobi-fit-v14.0-final';
 const ASSETS=['./','./index.html','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 
 self.addEventListener('install',event=>{

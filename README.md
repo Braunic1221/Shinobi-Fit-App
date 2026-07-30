@@ -1,21 +1,22 @@
-# Shinobi Fit – Version 13.5.6
+# Shinobi Fit – Version 14.0 Final
 
-## Änderungen gegenüber Version 13.2
-- Chakra wird beim Start und nach Änderungen zuverlässig aus der Trainingshistorie neu berechnet.
-- Mission A, B und C sind jetzt jeweils Ganzkörpertrainings mit unterschiedlichem Fokus.
-- Jede Mission enthält 8 Pflichtübungen plus optionale Shrugs.
-- Hip Thrusts wurden aus Mission B entfernt.
-- Eine bereits laufende Mission wird beim ersten Start von Version 13.5.6 anhand der Übungsnamen auf den neuen Plan übertragen; bereits eingegebene Werte bleiben soweit möglich erhalten.
-- Service-Worker-Cache wurde auf Version 13.5.6 aktualisiert.
+## Neue Struktur
+- Start: aktueller Charakterrang, Chakra-Fortschritt, Gewichtspfad, Streak, Missionsstart und letzte Mission
+- Training: kompaktere Übungskarten mit einzeiliger Historie, kleinem Empfehlungs-Badge und einklappbaren Technikhinweisen
+- Dashboard: Messwerte, Diagramme, Trainingsverteilung sowie Monats- und Jahresauswertung
+- Verlauf: abgeschlossene Missionen und detaillierte Zusammenfassungen
+- Mehr: vollständige Rangliste, Erfolge, persönliche Rekorde, Backup und App-Informationen
 
-Shinobi Fit Version 13.2
+## Rangsystem
+- 20 Naruto-Charakterränge von Iruka bis Naruto als Hokage
+- Chakra-Fortschritt und einmalige Rangaufstiegsanzeige
+- Erfolge mit Freischaltungsstatus
 
-Neu: Übungen überspringen und reaktivieren, sichere Gerätezuordnung nach Namen, bestätigtes Ersetzen, Schutz laufender Missionen, detaillierter Verlauf, Missionsränge, Trainingsdauer, Rekorde, Progression, Streaks, Monats-/Jahresstatistik und Muskelgruppenübersicht.
+## Bereinigung
+- Doppelte Ranglisten, Erfolge und Rekorde wurden aus Start und Dashboard entfernt
+- Kalorienhinweis, Shrugs-Hinweis und doppelte Gewichtseingabe wurden aus Mehr entfernt
+- Mission A, B und C sowie deren Übungsreihenfolge wurden nicht verändert
 
-Aktuelles Training vom 21.07.2026 wurde als eindeutiger Datensatz ergänzt.
-
-
-## Ergänzung 13.5.6
-- Mission B vom 24.07.2026 als abgeschlossen ergänzt (ohne erfundene Gewichte/Wiederholungen)
-- Lokale automatische und manuelle Backups mit Wiederherstellung
-- Backup-Export und -Import
+## Datensicherheit
+- Bestehende lokale Daten werden weiterverwendet
+- Lokale Backups sowie JSON-Export und -Import bleiben erhalten

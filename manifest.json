@@ -1,5 +1,5 @@
 {
-  "name": "Shinobi Fit 13.5.6",
+  "name": "Shinobi Fit v14",
   "short_name": "Shinobi Fit",
   "id": "./",
   "start_url": "./",
@@ -20,5 +20,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "version": "14.0"
 }
